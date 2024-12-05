@@ -422,11 +422,7 @@ def send_mails():
     for invoice in INVOICE_PATH.glob("*.pdf"):
         # look for a .json with the exact same name and path of the pdf
         metadata_file = Path(str(invoice).replace(".pdf", ".json"))
-        if metadata_file.exists():
-            metadata = json.load(metadata_file.open())
-        else:
-            metadata_file.touch()
-            metadata = {}
+        
 
         if "email_sent" in metadata:
             # email already sent, skip this invoice
@@ -446,6 +442,9 @@ def send_mails():
         try:
             s.send_message(email)
             logger.info(f"Sent Mail to {EMAIL_TO} for invoice {invoice.name}")
+            if not metadata_file.exists():
+                metadata_file.touch()
+            metadata = {}
             metadata["email_sent"] = int(time.time())
             json.dump(metadata, metadata_file.open("w"), sort_keys=True, indent=4)
         except smtplib.SMTPException as e:
