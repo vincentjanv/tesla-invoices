@@ -313,20 +313,15 @@ def download_invoice(desired_invoice_date):
 
 def get_charging_invoice(charging_session_invoice_id, vin):
     url_charging_base = "https://ownership.tesla.com/mobile-app/charging/"
-    url_charging_invoice = f"{url_charging_base}invoice/{charging_session_invoice_id}?deviceLanguage=en&deviceCountry=AT&httpLocale=en_US&vin={vin}"  # noqa
+    url_charging_invoice = f"{url_charging_base}invoice/{charging_session_invoice_id}"  # noqa
 
     return base_req(url_charging_invoice)
 
 
 def get_subscription_invoice(subscription_invoice_id, vin):
-    url_documents_invoice = f"https://ownership.tesla.com/mobile-app/documents/invoices/{subscription_invoice_id}"
-    params = {
-        "deviceLanguage": "en",
-        "deviceCountry": "AT",
-        "httpLocale": "en_US",
-        "vin": vin,
-    }
-    return base_req(url_documents_invoice, params=params)
+    url_documents_invoice = f"https://ownership.tesla.com/mobile-app/documents/invoices/{subscription_invoice_id}?deviceLanguage=en&deviceCountry=AT&httpLocale=en_US&vin={vin}"
+
+    return base_req(url_documents_invoice)
 
 
 def save_charging_invoice(charging_sessions, desired_invoice_date):
