@@ -410,6 +410,7 @@ def get_vehicles():
 
 def send_mails():
     try:
+        logger.info(f"Connecting to mailserver: {EMAIL_SERVER}")
         s = smtplib.SMTP(EMAIL_SERVER, EMAIL_SERVER_PORT, timeout=20)
         s.ehlo()
         s.starttls()

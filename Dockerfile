@@ -2,7 +2,6 @@ from python:3.12-slim
 RUN pip install --no-cache-dir requests==2.31.0
 
 WORKDIR /opt/tesla-invoices
-COPY download_v2.py .
 
 # to refresh the access token every 2 hours
 RUN apt update
@@ -18,4 +17,6 @@ RUN apt install -y caddy
 COPY crontab /etc/cron.d/
 RUN crontab /etc/cron.d/crontab
 COPY entrypoint.sh .
+COPY download_v2.py .
+
 ENTRYPOINT ["/opt/tesla-invoices/entrypoint.sh"]
